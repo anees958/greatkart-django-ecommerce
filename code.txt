@@ -1,0 +1,32 @@
+is_cart_item_exists=CartItem.objects.filter(product=product,cart=cart).exists
+    if is_cart_item_exists:
+    
+     cart_item= CartItem.objects.create(product=product,cart=cart) 
+
+        # existing variations
+        # current cariations
+        #item_id database
+         
+     ex_var_list=[]
+        for item in cart_item:
+            existing_variation=item.variations.all()
+            ex_var_list.append(list(existing_variation))
+            
+            if product_variation in ex_var_list:
+                return HttpResponse('true')
+            else:
+                return HttpResponse('fasle')
+
+
+
+
+                item=CartItem.objects.create(Product=product,quantity=1,cart=cart)
+
+
+
+
+ {% if cart_item.variations.all %}
+                           {% for item in cart_item.variations.all %}
+                              {{ item.variation_category }} : {{ item.variation_value }}
+                           {% endfor %}
+                      {% endif %}
