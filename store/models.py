@@ -30,6 +30,7 @@ class Product(models.Model):
 # Create your models here.
  
 class VariationManager(models.Manager):
+    
     def colors(self):
         return super(VariationManager,self).filter(variation_category='color',is_active=True)
     def sizes(self):
