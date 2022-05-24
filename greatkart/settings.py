@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'category',
     'store',
     'carts',
+    'account',
+    'orders'
     
     
     
@@ -78,6 +80,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'greatkart.wsgi.application'
+
+AUTH_USER_MODEL = 'account.Account'
+
+
 
 
 # Database
@@ -140,3 +146,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL='/media/'
 MEDIA_ROOT=BASE_DIR /'media'
+
+# for message alerts displaying any kind of alert 
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+
+}
+
+
+# SMPT COnfiguration
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'aneesahmed958@gmail.com'
+EMAIL_HOST_PASSWORD = 'f35lighting'
+EMAIL_USE_TLS = True

@@ -58,3 +58,6 @@ $(document).ready(function() {
 }); 
 // jquery end
 
+setimeout(function(){
+    $('message').fadeOut('slow')
+},4000)
