@@ -10,7 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from ctypes import cast
+from email.policy import default
 from pathlib import Path
+
+# for Securing Senstive Information
+from decouple import config
+from django import conf
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2=c!1dwi$no72u!-l&8_64cp=sd6b!m=6z%khn(*t4p!q8!zi('
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',default=True,cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -41,7 +48,8 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'account',
-    'orders'
+    'orders',
+    
     
     
     
@@ -56,8 +64,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+
     
 ]
+SESSION_EXPIRE_SECONDS = 3600  # 1 hour
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = 'account/login'
 
 ROOT_URLCONF = 'greatkart.urls'
 
@@ -157,9 +170,9 @@ MESSAGE_TAGS = {
 
 
 # SMPT COnfiguration
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'aneesahmed958@gmail.com'
-EMAIL_HOST_PASSWORD = 'f35lighting'
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS',cast=bool)
